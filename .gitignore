@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+
+# Entornos y secretos
+.env
+.env.*
+
+# Configuraciones locales y de IA
+.vscode/
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+
+# Build / Prisma
+/generated/prisma
