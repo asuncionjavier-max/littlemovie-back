@@ -1,0 +1,136 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-commerce API",
+    "version": "1.0.0",
+    "description": "API RESTful para E-commerce de películas desarrollada con Node.js, Express, Prisma y Supabase."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "servidor local"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string","format": "uuid"},
+          "name": {"type": "string", "maxLength": 50},
+          "email": {"type": "string","format": "email","maxLength": 150},
+          "password": {"type": "string","maxLength": 255},
+          "age": {
+            "type": "integer", "nullable": true},
+          "city": {
+            "type": "string", "maxLength": 50, "nullable": true},
+          "postal_code": { "type": "string", "nullable": true},
+          "role": {
+            "type": "string", "maxLength": 50, "default": "USER" },
+          "created_at": {
+            "type": "string", "format": "date-time"},
+          "updated_at": {
+            "type": "string", "format": "date-time"}
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "password",
+          "role",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer" },
+          "title": { "type": "string","maxLength": 255 },
+          "year": { "type": "integer", "nullable": true },
+          "director": { "type": "string", "maxLength": 255, "nullable": true },
+          "genre": { "type": "string", "maxLength": 255, "default": "not null" },
+          "price": { "type": "number","format": "double" },
+          "rating": { "type": "number", "format": "float", "nullable": true},
+          "created_at": { "type": "string", "format": "date-time"},
+          "updated_at": { "type": "string", "format": "date-time"}
+        },
+        "required": [
+          "id",
+          "title",
+          "genre",
+          "price",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "CartMovie": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "cart_id": { "type": "string", "format": "uuid"},
+          "movie_id": { "type": "integer"},
+          "quantity": {
+            "type": "integer", "default": 1},
+          "movies": { "$ref": "#/components/schemas/Movie"}
+        },
+        "required": [
+          "id",
+          "cart_id",
+          "movie_id",
+          "quantity"
+        ]
+      },
+      "Cart": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid"},
+          "user_id": { "type": "string", "format": "uuid", "nullable": true},
+          "created_at": { "type": "string", "format": "date-time", "nullable": true},
+          "cart_movies": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CartMovie"}
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "OrderItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer" },
+          "order_id": { "type": "string", "format": "uuid"},
+          "movie_id": { "type": "integer","nullable": true },
+          "quantity": { "type": "integer", "default": 1 },
+          "price_at_purchease": { "type": "number", "format": "double"},
+          "movies": { "$ref": "#/components/schemas/Movie"}
+        }, 
+        "required": [
+          "id",
+          "order_id",
+          "quantity",
+          "price_at_purchease"
+        ]
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "user_id": { "type": "string", "format": "uuid" },
+          "order_status": { "type": "string", "default": "completed"},
+          "created_at": { "type": "string", "format": "date-time", "nullable": true},
+          "order_item": { "type": "array", "items": { "$ref": "#/components/schemas/OrderItem" }
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "order_status"
+        ]
+      }
+    }
+  }
+}
