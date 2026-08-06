@@ -132,5 +132,122 @@
         ]
       }
     }
+  },
+  "paths": {
+    "/api/health":{
+      "get": {
+        "summary": "Verifica que el server funciona",
+        "description": "Endpoint para confirmar que el server esta encendido"
+      }
+    },
+    "/api/movies": {
+      "get": {
+        "tags": ["movies"],
+        "summary": "Lista de peliculas",
+        "description":"Trae la lista con todas las pelicuas",
+        "responses": {
+          "200" :{
+              "description" : " Devuelve toda la lista de peliculas",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "success": {"type": "boolean", "example": "true"},
+                      "data": {"$ref":"#/components/schemas/Movie"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/movies/{id}": {
+      "parameters": [{
+        "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID numérico de la película",
+          "schema": {
+          "type": "integer"
+      }
+    }
+  ],
+  "get": {
+    "tags": ["movies"],
+    "summary": "Obtener película por ID",
+    "description": "Trae la película correspondiente a su ID",
+    "responses": {
+      "200": {
+        "description": "Película encontrada",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean", "example": true },
+                "data": { "$ref": "#/components/schemas/Movie" }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "No se encontró ninguna película con ese ID"
+      }
+    }
+  },
+  "patch": {
+    "tags": ["movies"],
+    "summary": "Actualizar película por ID",
+    "description": "Actualiza parcialmente los datos de una película",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/Movie"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Película actualizada correctamente",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean", "example": true },
+                "data": { "$ref": "#/components/schemas/Movie" }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Datos de entrada inválidos"
+      },
+      "404": {
+        "description": "Película no encontrada"
+      }
+    }
+  },
+  "delete": {
+    "tags": ["movies"],
+    "summary": "Eliminar película por ID",
+    "description": "Borra la película correspondiente al ID enviado",
+    "responses": {
+      "200": {
+        "description": "Película eliminada correctamente"
+      },
+      "404": {
+        "description": "Película no encontrada"
+          }
+        }
+      }
+    }
   }
 }
