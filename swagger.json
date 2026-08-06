@@ -9,6 +9,10 @@
     {
       "url": "http://localhost:3000",
       "description": "servidor local"
+    },
+    {
+      "url": "https://littlemovie-back.onrender.com/",
+      "description": "servidor en la nube"
     }
   ],
   "components": {
