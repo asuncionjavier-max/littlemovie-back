@@ -1,5 +1,6 @@
 import express from "express"
 import movies from "./movies.js"
+import auth from "./auth.js";
 
 const router = express.Router()
 
@@ -9,5 +10,7 @@ router.get("/health", (req,res) =>{
 });
 
 router.use(movies)
+
+router.use(auth)
 
 export default router;
