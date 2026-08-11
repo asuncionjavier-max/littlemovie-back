@@ -12,7 +12,7 @@ const checkLogin = checker("email", "password");
 
 router.post("/register", checkRegister, authController.register);
 
-router.post("/login", checkLogin, authController.login);
+router.post("/login", authController.login);
 
 router.post("/logout",authController.logout);
 
