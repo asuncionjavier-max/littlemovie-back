@@ -3,6 +3,7 @@ import express from "express";
 import* as authController from "../controllers/auth.js";
 
 import checker from "../middlewares/checker.js";
+import authorize from "../middlewares/authorizer.js";
 
 const router = express.Router();
 
@@ -14,6 +15,6 @@ router.post("/register", checkRegister, authController.register);
 
 router.post("/login", authController.login);
 
-router.post("/logout",authController.logout);
+router.post("/logout", authorize, authController.logout);
 
 export default router;

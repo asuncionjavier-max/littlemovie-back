@@ -23,17 +23,22 @@ return{
 
 export const selectUser = async ({email, password}) =>{
 try {
+
+    if(!email || !password) return ({success: false, message: "Email y contraseña obligatorios"})
     const user = await prisma.users.findUnique({
         select: { name: true, password: true, role: true, age: true},
         where: {email}, 
     });
+    if(!user) return {success :false, message: "Email o contraseña incorrecto"};
+
+
     const validPass = await comparePass(stringfy(password), user.password);
 
     if(!user || !validPass) return {success :false, message: "Email o contraseña incorrecto"};
 
-    const {name, age } = user
+    const {name, age, role } = user
 
-    const token = sign({name, email, age}) 
+    const token = sign({name, email, age, role}) 
     
     return {
     success: true,
@@ -44,6 +49,7 @@ try {
 console.log(">error querying user", error.message);
     return{
     success: false,
+    message: "error al procesar solicitud"
         };
 }
 }

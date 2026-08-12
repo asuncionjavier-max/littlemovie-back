@@ -50,6 +50,7 @@ export const login = async (req,res,next) =>{
         );
         return res.status(200).json({
             success:true,
+            data: "Sesion abierta"
         });
     } catch (error) {
         next(error)
@@ -57,9 +58,12 @@ export const login = async (req,res,next) =>{
 };
 
 export const logout = async (req,res,next) =>{
-    try {
+        res.clearCookie("access_token")       
+    
+    return res.status(200).json({
+        success:true,
+        data:"Sesion cerrada"   
+    })
         
-    } catch (error) {
-        
+        next(error)
     }
-}
