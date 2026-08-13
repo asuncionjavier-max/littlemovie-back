@@ -252,7 +252,6 @@
           }
         }
       }
-    }
   },
 "/api/register": {
       "post": {
@@ -342,5 +341,126 @@
           }
         }
       }
+    },
+    "/api/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Inicio de sesión",
+        "description": "Autentica un usuario con email y contraseña. Retorna una cookie 'access_token' HTTPOnly con el JWT.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "tomate@tomate.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "tomate1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login exitoso. Establece la cookie 'access_token'",
+            "headers": {
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string",
+                  "example": "access_token=eyJhbGciOiJIUzI1...; Path=/; HttpOnly"
+                },
+                "description": "Cookie de autenticación que contiene el JWT"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Credenciales inválidas o faltan datos requeridos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email o contraseña incorrecto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    },
+    "/api/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Cierre de sesión",
+        "description": "Elimina la cookie 'access_token' del navegador para finalizar la sesión.",
+        "responses": {
+          "200": {
+            "description": "Sesión cerrada correctamente",
+            "headers": {
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string",
+                  "example": "access_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+                },
+                "description": "Expira la cookie para eliminarla del cliente"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "Sesión cerrada"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
     }
+  }
 }
