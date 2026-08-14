@@ -3,16 +3,18 @@ import { verify } from "../utils/jwt.js"
 export default (req,res,next) =>{
 const { access_token: accessToken } = req.cookies;
 
+if (!accessToken) {
+        return next({ statusCode: 401, message: "No autenticado" });
+    }
+
 const user = verify(accessToken);
 
 if(!user)
-    return next({statusCode: 400, message: "No autenticado" })
+    return next({statusCode: 401, message: "Vuelve a iniciar sesion" });
 
-const{ iat, exp, role, ...black } = user
+const{ iat, exp, role, ...black } = user;
 
-console.log("> User", black);
-
-res.locals = black
+res.locals = black;
 
 next();
 };
