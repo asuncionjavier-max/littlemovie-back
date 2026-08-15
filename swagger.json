@@ -461,6 +461,93 @@
           }
         }
       }
+    },
+    "/api/profile": {
+    "get": {
+      "tags": ["profile"],
+      "summary": "Obtener perfil del usuario",
+      "description": "Devuelve los datos del usuario autenticado leyendo la cookie JWT.",
+      "responses": {
+        "200": {
+          "description": "Perfil obtenido con éxito",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": { "type": "boolean", "example": true },
+                  "data": { "$ref": "#/components/schemas/User" }
+                }
+              }
+            }
+          }
+        },
+        "401": { "description": "No autenticado o token inválido" },
+        "404": { "description": "Usuario no encontrado" }
+      }
+    },
+    "patch": {
+      "tags": ["profile"],
+      "summary": "Actualizar perfil del usuario",
+      "description": "Actualiza los datos del usuario autenticado.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "Juan" },
+                "age": { "type": "integer", "example": 25 },
+                "city": { "type": "string", "example": "Madrid" },
+                "postal_code": { "type": "string", "example": "28001" }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Usuario actualizado correctamente",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": { "type": "boolean", "example": true },
+                  "data": { "$ref": "#/components/schemas/User" },
+                  "message": { "type": "string", "example": "Usuario actualizado correctamente" }
+                }
+              }
+            }
+          }
+        },
+        "400": { "description": "Datos de entrada inválidos" },
+        "401": { "description": "No autenticado" }
+      }
+    },
+    "delete": {
+      "tags": ["profile"],
+      "summary": "Eliminar cuenta de usuario",
+      "description": "Elimina la cuenta del usuario autenticado de la base de datos y borra la cookie de sesión.",
+      "responses": {
+        "200": {
+          "description": "Perfil eliminado con éxito",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": { "type": "boolean", "example": true },
+                  "data": { "type": "string", "example": "Perfil eliminado" }
+                }
+              }
+            }
+          }
+        },
+        "401": { "description": "No autenticado" }
+        }
+      }
     }
   }
 }
