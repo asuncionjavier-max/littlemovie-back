@@ -17,15 +17,13 @@ export const getProfile = async ({email}) =>{
     }
 };
 
-export const deleteProfile = async ({email, password}) =>{
+export const deleteProfile = async ({email}) =>{
     try {
 
-        console.log(">intentando borrar email ", email)
         const profile = await prisma.users.delete({
         where:{email}
         });
 
-        console.log("Resultado del borrado:", profile);
         return profile
 
     } catch (error) {
@@ -37,3 +35,24 @@ export const deleteProfile = async ({email, password}) =>{
         
     }
 };
+
+export const updateProfile = async ({email, data}) => {
+    try {
+
+const updated = await prisma.users.update({
+    where:{email}, 
+    data: data,
+});
+
+const {id, password, role, created_at, updated_at, ...cleanUser} = updated;
+
+return cleanUser; 
+        
+    } catch (error) {
+        console.log("Problema con el service")
+        return{
+            success: false,
+            message: "No se ha podido actualizar"
+        }
+    }
+}

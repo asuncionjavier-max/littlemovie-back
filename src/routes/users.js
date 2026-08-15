@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get("/profile", authorizer, usersController.getMe);
 
+router.patch("/profile", authorizer, usersController.updateAcount);
+
 router.delete("/profile", authorizer, usersController.deleteAcount);
 
 export default router;
