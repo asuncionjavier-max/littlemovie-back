@@ -1,13 +1,16 @@
 import prisma from "../lib/prisma.js";
 import { comparePass, crypt } from "../utils/pass.js";
-import { stringfy } from "../utils/converter.js";
+import { stringfy, nullable } from "../utils/converter.js";
 import { sign } from "../utils/jwt.js";
-export const insertUser = async ({ password, ...user }) =>{
+
+export const insertUser = async ({ password, postal_code, ...user }) =>{
 try {
     
-        const hashedPass = await crypt(stringfy(password))
+        const hashedPass = await crypt(stringfy(password));
+
+        const isNull = nullable(postal_code)
             await prisma.users.create({
-            data: {...user, password: hashedPass} });
+            data: {...user, password: hashedPass, postal_code: isNull} });
             return {
                 success: true,
             }

@@ -13,7 +13,7 @@ export const register = async (req,res,next) =>{
             password, 
             age, 
             city, 
-            postal_code: nullable(postal_code)});
+            postal_code});
 
         if(!result.success) return next({
             statusCode: 400,
