@@ -8,7 +8,8 @@ try {
     
         const hashedPass = await crypt(stringfy(password));
 
-        const isNull = nullable(postal_code)
+        const isNull = nullable(postal_code);
+        
             await prisma.users.create({
             data: {...user, password: hashedPass, postal_code: isNull} });
             return {
