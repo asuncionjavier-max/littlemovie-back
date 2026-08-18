@@ -1,0 +1,57 @@
+import  { Wishlist}  from "../config/models/Wishlist.js";
+
+
+export const addToWishlist = async ({userId, movieId}) =>{
+try {
+    const item = new Wishlist({userId, movieId})
+    await item.save()
+
+    return {
+        ok: true
+    };
+} catch (error) {
+    console.error("> Error añadiendo la pelicula a la wishlist:", error)
+    return{
+        ok: false,
+        message: "No se ha podido añadir"
+    }
+    }
+};
+
+export const getWishlistbyUser = async ({userId}) =>{
+try {
+    const list = await Wishlist.find({userId});
+    
+    return{
+        ok: true,
+        data: list
+    } 
+
+} catch (error) {
+    console.error(">Error al traer la wishlist del usuario", error);
+    return{
+        ok: false,
+        message: "No hemos podido traer tu wishlist"
+        }
+    };
+};
+
+export const removeFromWishlist = async (userId, movieId) =>{
+try {
+    const result = await Wishlist.findOneAndDelete({ userId, movieId })
+    
+    if(!result) return next({
+        ok: false
+    })
+    return{
+        ok: true,
+    }
+} catch (error) {
+    console.error("> no se ha podido eliminar la pelicula", error);
+    return{
+        ok: false,
+        message: " No se ha podido eliminar la pelicula"
+    }
+}
+
+};
