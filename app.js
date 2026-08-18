@@ -11,6 +11,7 @@ import fs from "node:fs"
 // necesarias por type:module
 import { join, dirname  } from "node:path";
 import { fileURLToPath } from "node:url";
+import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 
 const app = express()
@@ -27,16 +28,7 @@ app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use("/api", indexroutes);
 
 // Middleware de error
-app.use((err, req, res, next) =>{
-    console.log("error interceptado", err)
-    const statusCode = err.statusCode || 500;
 
-    const message = err.message || "Ha habido un problema"
-    return res.status(statusCode).json({
-        success: false,
-        message: message
-    })
-});
-
+app.use(errorHandler); 
 
 export default app;
