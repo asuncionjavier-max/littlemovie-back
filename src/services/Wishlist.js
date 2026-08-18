@@ -1,4 +1,5 @@
 import  { Wishlist}  from "../config/models/Wishlist.js";
+import { findAllMovies } from "./movies.js";
 
 
 export const addToWishlist = async ({userId, movieId}) =>{
@@ -20,13 +21,17 @@ try {
 
 export const getWishlistbyUser = async ({userId}) =>{
 try {
-    const list = await Wishlist.find({userId});
+
+    const list = await Wishlist.find(
+        {userId},
+        { movieId: true, _id: false },
+    );
     
+    const { content } = await findAllMovies(list.map(({movieId}) => movieId))
     return{
         ok: true,
-        data: list
-    } 
-
+        data: content
+    };
 } catch (error) {
     console.error(">Error al traer la wishlist del usuario", error);
     return{

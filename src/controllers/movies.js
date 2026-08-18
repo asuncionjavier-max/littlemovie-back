@@ -2,10 +2,11 @@ import * as moviesService from "../services/movies.js"
 
 export const getMovies = async (req ,res, next) =>{
     try {
-        const data = await moviesService.findAllMovies( )
+        const data = await moviesService.findAllMovies()
+
         return res.status(200).json({
             success: true,
-            data: data
+            data: data.content
         });
 
     } catch (error) {
@@ -20,14 +21,14 @@ export const getMovieById = async (req,res,next) =>{
             return next({statusCode: 400, message: "El id tiene que ser un numero"})
         };
         
-        const data = await moviesService.findMovieById(id)
-        if(!data) {
+        const result = await moviesService.findMovieById(id)
+        if(!result.ok) {
             return next({ statusCode: 404, message: "La película no existe" });
     };
 
         return res.status(200).json({
             success: true, 
-            data: data
+            data: result.content
         })
 
     } catch (error) {
@@ -38,13 +39,22 @@ export const getMovieById = async (req,res,next) =>{
 export const addMovie = async (req, res, next) => {
     try {
         const {title, year, director, genre, price, rating} = req.body
-        if(!req.body){
-            return ({statusCode: 400, message: "Por favor rellena los campos"})
-        }
-        const newMovie = await moviesService.createMovie({title, year, director, genre, price, rating})
-    return res.status(200).json({
+    
+        const newMovie = await moviesService.createMovie({
+            title,
+            year,
+            director,
+            genre, 
+            price,
+            rating})
+
+            if(!newMovie.ok) return next ({
+                statusCode: 400,
+                message: "No se ha podido añadir la pelicula"
+            })
+    return res.status(201).json({
         success: true,
-        data: newMovie
+        data: newMovie.content
     })
     } catch (error) {
         next(error)
@@ -62,7 +72,7 @@ export const updateMovie = async (req,res,next) =>{
         const updated = await moviesService.updateMovie(id, {title, year, director, genre, price, rating })
         res.status(200).json({
             success:true,
-            data: updated
+            data: updated.content
         })
     } catch (error) {
         next(error)

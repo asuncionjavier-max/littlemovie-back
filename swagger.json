@@ -168,7 +168,10 @@
                     "type" : "object",
                     "properties" : {
                       "success": {"type": "boolean", "example": "true"},
-                      "data": {"$ref":"#/components/schemas/Movie"}
+                      "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Movie" }
+                    }
                   }
                 }
               }
@@ -559,15 +562,15 @@
         }
       }
     },
-    "api/allprofiles":{
+    "/api/allprofiles":{
       "get":{
         "tags": ["profile"],
         "summary": "Mostrar toda la lista de usuarios",
         "description": "Muestra todos los usuarios registrados, ruta protegida se necesita tener rol de admin",
         "responses":{
           "200": {
+            "description": "Lista de usuarios obtenida con éxito",
             "content": {
-              "description": "Lista de usuarios obtenida con éxito",
               "application/json":{
                 "schema":{
                   "type": "object",
