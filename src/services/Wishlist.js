@@ -40,7 +40,7 @@ export const removeFromWishlist = async (userId, movieId) =>{
 try {
     const result = await Wishlist.findOneAndDelete({ userId, movieId })
     
-    if(!result) return next({
+    if(!result) return ({
         ok: false
     })
     return{

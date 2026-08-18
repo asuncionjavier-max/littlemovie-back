@@ -134,7 +134,17 @@
           "user_id",
           "order_status"
         ]
-      }
+      },
+      "Wishlist": {
+  "type": "object",
+  "properties": {
+    "_id": { "type": "string", "example": "65b2a1f8c2e4f00123456789", "description": "ID de MongoDB" },
+    "userId": { "type": "string", "format": "uuid", "example": "d3b07384-d113-460e-4c80-1671f00d8329" },
+    "movieId": { "type": "integer", "example": 4 },
+    "createdAt": { "type": "string", "format": "date-time", "example": "2026-08-18T16:00:00.000Z"}
+  },
+  "required": ["userId", "movieId"]
+}
     }
   },
   "paths": {
@@ -578,6 +588,109 @@
       "403": {
         "description": "Acceso denegado. Se requiere rol de ADMIN"
       }
+        }
+      }
+    },
+    "/api/wishlist": {
+  "get": {
+    "tags": ["wishlist"],
+    "summary": "Obtener la wishlist del usuario",
+    "description": "Devuelve la lista de películas guardadas por el usuario autenticado.",
+    "security": [{ "cookieAuth": [] }],
+    "responses": {
+      "200": {
+        "description": "Lista de deseos obtenida con éxito",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean", "example": true },
+                "message": { "type": "string", "example": "wishlist" },
+                "data": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Wishlist" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": { "description": "No se ha podido traer la wishlist" },
+      "401": { "description": "No autenticado" }
+    }
+  },
+  "post": {
+    "tags": ["wishlist"],
+    "summary": "Añadir película a la wishlist",
+    "description": "Guarda una película en la lista de deseos del usuario autenticado.",
+    "security": [{ "cookieAuth": [] }],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["movie"],
+            "properties": {
+              "movie": { "type": "integer", "example": 4 }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Película añadida exitosamente",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean", "example": true },
+                "data": { "type": "string", "example": "Pelicula añadida a la wishlist" }
+              }
+            }
+          }
+        }
+      },
+      "400": { "description": "No se ha podido añadir la película o ya existe en la lista" },
+      "401": { "description": "No autenticado" }
+    }
+  }
+},
+"/api/wishlist/{movieId}": {
+  "delete": {
+    "tags": ["wishlist"],
+    "summary": "Eliminar película de la wishlist",
+    "description": "Elimina un elemento de la lista de deseos mediante el id de la película.",
+    "security": [{ "cookieAuth": [] }],
+    "parameters": [
+      {
+        "name": "movieId",
+        "in": "path",
+        "required": true,
+        "description": "ID numérico de la película a eliminar",
+        "schema": { "type": "integer" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Película eliminada de la wishlist",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean", "example": true },
+                "message": { "type": "string", "example": "Eliminado de wishlist" }
+              }
+            }
+          }
+        }
+      },
+      "401": { "description": "No autenticado" },
+      "500": { "description": "Error al procesar la eliminación" }
         }
       }
     }
