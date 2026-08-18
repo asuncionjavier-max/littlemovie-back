@@ -2,7 +2,8 @@ import prisma from "../lib/prisma.js"
 
 export const findAllMovies = async () =>{
     return await prisma.movies.findMany({
-        orderBy: {id:"asc"}
+        orderBy: {id:"asc"},
+        omit:{created_at: true, updated_at: true}
     })
 };
 
