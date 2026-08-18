@@ -548,6 +548,38 @@
         "401": { "description": "No autenticado" }
         }
       }
+    },
+    "api/allprofiles":{
+      "get":{
+        "tags": ["profile"],
+        "summary": "Mostrar toda la lista de usuarios",
+        "description": "Muestra todos los usuarios registrados, ruta protegida se necesita tener rol de admin",
+        "responses":{
+          "200": {
+            "content": {
+              "description": "Lista de usuarios obtenida con éxito",
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "success":{ "type": "boolean", "example": true},
+                    "data": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/User" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+        "description": "No autenticado (Cookie ausente o token inválido)"
+      },
+      "403": {
+        "description": "Acceso denegado. Se requiere rol de ADMIN"
+      }
+        }
+      }
     }
   }
 }
