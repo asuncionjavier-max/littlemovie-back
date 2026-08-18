@@ -7,8 +7,6 @@ export const reviewSchema = new mongoose.Schema(
 
         userId:{ type: String, required: true },
     
-        movieName: { type: String, required: true },
-    
         comment:{ type: String, default: "" },
     
         rating: { type: Number, min: 1, max: 10, required: true },
