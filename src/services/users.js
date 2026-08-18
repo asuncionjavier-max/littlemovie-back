@@ -1,7 +1,23 @@
 import prisma from "../lib/prisma.js";
 import { comparePass } from "../utils/pass.js";
 
-export const getProfile = async ({email}) =>{
+export const getAllProfiles = async () =>{
+    try {
+        const selectAllProfiles = await prisma.users.findMany({
+            omit:{password: true, id: true}
+        })
+
+        return selectAllProfiles
+    
+    } catch (error) {
+        return{
+            success: false,
+            message: "Algo ha fallado"
+        }
+    }
+}
+
+export const getMyProfile = async ({email}) =>{
     try {
         const profile =  await prisma.users.findUnique({
             where:{email},

@@ -6,7 +6,7 @@ export const getMe = async (req,res,next) =>{
 
         if(!email) return next({statusCode: 400, message: "Error 1"});
 
-        const profile = await userService.getProfile({email});
+        const profile = await userService.getMyProfile({email});
 
         if(!profile) return next({statusCode: 400, message: "Error 2"});
 
@@ -20,6 +20,21 @@ export const getMe = async (req,res,next) =>{
         next(error)
     }
 };
+
+export const getAll = async (req,res,next) =>{
+    try {
+        
+        const result =  await userService.getAllProfiles()
+        
+        return res.status(200).json({
+            success: true,
+            data: result
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const updateAcount = async (req,res,next) =>{
 try {
     const {email} = res.locals;
