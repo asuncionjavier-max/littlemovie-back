@@ -12,9 +12,9 @@ const user = verify(accessToken);
 if(!user)
     return next({statusCode: 401, message: "Vuelve a iniciar sesion" });
 
-const{ iat, exp, role, ...black } = user;
+const{ email, role, id } = user;
 
-res.locals = black;
+res.locals = user;
 
 next();
 };

@@ -30,7 +30,7 @@ try {
 
     if(!email || !password) return ({success: false, message: "Email y contraseña obligatorios"})
     const user = await prisma.users.findUnique({
-        select: { name: true, password: true, role: true, age: true},
+        select: { id: true, name: true, password: true, role: true, },
         where: {email}, 
     });
     if(!user) return {success :false, message: "Email o contraseña incorrecto"};
@@ -40,9 +40,9 @@ try {
 
     if(!user || !validPass) return {success :false, message: "Email o contraseña incorrecto"};
 
-    const {name, age, role } = user
+    const {name, role, id } = user
 
-    const token = sign({name, email, age, role}) 
+    const token = sign({name, email, role: user.role, id: user.id}) 
     
     return {
     success: true,
