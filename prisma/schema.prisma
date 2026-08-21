@@ -18,7 +18,6 @@ model cart_movies {
   id       Int    @id @default(autoincrement())
   cart_id  String @db.Uuid
   movie_id Int
-  quantity Int    @default(1)
   cart     cart   @relation(fields: [cart_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   movies   movies @relation(fields: [movie_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "cart_movies_movies_id_fkey")
 

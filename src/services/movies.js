@@ -21,7 +21,8 @@ export const findAllMovies = async (movieIds) =>{
 
 export const findMovieById = async (id) =>{
     try {
-        const movie = await prisma.movies.findUnique({where: {id} })
+        const movie = await prisma.movies.findUnique({where: {id},
+        omit: {created_at: true, updated_at: true}})
         if(!movie) return {
             ok: false,
             message: "La pelicula que buscas no existe"
