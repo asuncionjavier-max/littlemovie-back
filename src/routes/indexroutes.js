@@ -3,6 +3,7 @@ import movies from "./movies.js"
 import auth from "./auth.js";
 import users from "./users.js"
 import wishlist from "./Wishlist.js"
+import cart from "./cart.js"
 const router = express.Router()
 
 router.get("/health", (req,res) =>{
@@ -17,5 +18,7 @@ router.use(auth)
 router.use(users)
 
 router.use(wishlist)
+
+router.use(cart)
 
 export default router;
