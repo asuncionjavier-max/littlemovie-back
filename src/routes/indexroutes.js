@@ -4,6 +4,8 @@ import auth from "./auth.js";
 import users from "./users.js"
 import wishlist from "./Wishlist.js"
 import cart from "./cart.js"
+import checkout from "./checkout.js"
+
 const router = express.Router()
 
 router.get("/health", (req,res) =>{
@@ -20,5 +22,7 @@ router.use(users)
 router.use(wishlist)
 
 router.use(cart)
+
+router.use(checkout) 
 
 export default router;
