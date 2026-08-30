@@ -16,6 +16,14 @@
     }
   ],
   "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "access_token",
+        "description": "JWT de autenticación almacenado en la cookie HttpOnly 'access_token'"
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",
@@ -210,22 +218,19 @@
           }
         }
       },
-      "404": {
-        "description": "No se encontró ninguna película con ese ID"
-      }
+      "404": { "description": "No se encontró ninguna película con ese ID" }
     }
   },
   "patch": {
     "tags": ["movies"],
     "summary": "Actualizar película por ID",
     "description": "Actualiza parcialmente los datos de una película",
+    "security": [{ "cookieAuth": [] }],
     "requestBody": {
       "required": true,
       "content": {
         "application/json": {
-          "schema": {
-            "$ref": "#/components/schemas/Movie"
-          }
+          "schema": { "$ref": "#/components/schemas/Movie" }
         }
       }
     },
@@ -244,25 +249,18 @@
           }
         }
       },
-      "400": {
-        "description": "Datos de entrada inválidos"
-      },
-      "404": {
-        "description": "Película no encontrada"
-      }
+      "400": { "description": "Datos de entrada inválidos" },
+      "404": { "description": "Película no encontrada" }
     }
   },
   "delete": {
     "tags": ["movies"],
     "summary": "Eliminar película por ID",
     "description": "Borra la película correspondiente al ID enviado",
+    "security": [{ "cookieAuth": [] }],
     "responses": {
-      "200": {
-        "description": "Película eliminada correctamente"
-      },
-      "404": {
-        "description": "Película no encontrada"
-          }
+      "200": { "description": "Película eliminada correctamente" },
+      "404": { "description": "Película no encontrada" }
         }
       }
   },
@@ -279,38 +277,13 @@
                 "type": "object",
                 "required": ["name", "email", "password"],
                 "properties": {
-                  "name": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "example": "Tomate"
-                  },
+                  "name": { "type": "string", "maxLength": 50, "example": "Tomate" },
                   "email": {
-                    "type": "string",
-                    "format": "email",
-                    "maxLength": 150,
-                    "example": "tomate@tomate.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "maxLength": 255,
-                    "example": "tomate1234"
-                  },
-                  "age": {
-                    "type": "integer",
-                    "nullable": true,
-                    "example": 69
-                  },
-                  "city": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "nullable": true,
-                    "example": "Valencia"
-                  },
-                  "postal_code": {
-                    "type": "string",
-                    "nullable": true,
-                    "example": "46181"
-                  }
+                    "type": "string", "format": "email", "maxLength": 150, "example": "tomate@tomate.com" },
+                  "password": { "type": "string", "maxLength": 255, "example": "tomate1234" },
+                  "age": { "type": "integer", "nullable": true, "example": 69 },
+                  "city": { "type": "string", "maxLength": 50, "nullable": true, "example": "Valencia" },
+                  "postal_code": { "type": "string", "nullable": true, "example": "46181" }
                 }
               }
             }
@@ -324,10 +297,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    }
+                    "success": { "type": "boolean", "example": true }
                   }
                 }
               }
@@ -340,18 +310,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Falta email por rellenar"
-                    }
+                    "message": { "type": "string", "example": "Falta email por rellenar" }
                   }
                 }
               }
             }
           },
-          "500": {
-            "description": "Error interno del servidor o error de base de datos"
-          }
+          "500": { "description": "Error interno del servidor o error de base de datos" }
         }
       }
     },
@@ -368,15 +333,8 @@
                 "type": "object",
                 "required": ["email", "password"],
                 "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "example": "tomate@tomate.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "tomate1234"
-                  }
+                  "email": { "type": "string", "format": "email", "example": "tomate@tomate.com" },
+                  "password": { "type": "string", "example": "tomate1234" }
                 }
               }
             }
@@ -399,10 +357,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    }
+                    "success": { "type": "boolean", "example": true }
                   }
                 }
               }
@@ -415,22 +370,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "statusCode": {
-                      "type": "integer",
-                      "example": 400
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Email o contraseña incorrecto"
-                    }
+                    "statusCode": { "type": "integer", "example": 400 },
+                    "message": { "type": "string", "example": "Email o contraseña incorrecto" }
                   }
                 }
               }
             }
           },
-          "500": {
-            "description": "Error interno del servidor"
-          }
+          "500": { "description": "Error interno del servidor" }
         }
       }
     },
@@ -456,22 +403,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "data": {
-                      "type": "string",
-                      "example": "Sesión cerrada"
-                    }
+                    "success": { "type": "boolean", "example": true },
+                    "data": { "type": "string", "example": "Sesión cerrada" }
                   }
                 }
               }
             }
           },
-          "500": {
-            "description": "Error interno del servidor"
-          }
+          "500": { "description": "Error interno del servidor" }
         }
       }
     },
@@ -480,6 +419,7 @@
       "tags": ["profile"],
       "summary": "Obtener perfil del usuario",
       "description": "Devuelve los datos del usuario autenticado leyendo la cookie JWT.",
+      "security": [{ "cookieAuth": [] }],
       "responses": {
         "200": {
           "description": "Perfil obtenido con éxito",
@@ -503,6 +443,7 @@
       "tags": ["profile"],
       "summary": "Actualizar perfil del usuario",
       "description": "Actualiza los datos del usuario autenticado.",
+      "security": [{ "cookieAuth": [] }],
       "requestBody": {
         "required": true,
         "content": {
@@ -543,6 +484,7 @@
       "tags": ["profile"],
       "summary": "Eliminar cuenta de usuario",
       "description": "Elimina la cuenta del usuario autenticado de la base de datos y borra la cookie de sesión.",
+      "security": [{ "cookieAuth": [] }],
       "responses": {
         "200": {
           "description": "Perfil eliminado con éxito",
@@ -567,6 +509,7 @@
         "tags": ["profile"],
         "summary": "Mostrar toda la lista de usuarios",
         "description": "Muestra todos los usuarios registrados, ruta protegida se necesita tener rol de admin",
+        "security": [{ "cookieAuth": [] }],
         "responses":{
           "200": {
             "description": "Lista de usuarios obtenida con éxito",
@@ -577,20 +520,16 @@
                   "properties":{
                     "success":{ "type": "boolean", "example": true},
                     "data": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/User" }
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/User" }
                     }
                   }
                 }
               }
             }
           },
-          "401": {
-        "description": "No autenticado (Cookie ausente o token inválido)"
-      },
-      "403": {
-        "description": "Acceso denegado. Se requiere rol de ADMIN"
-      }
+          "401": { "description": "No autenticado (Cookie ausente o token inválido)" },
+      "403": { "description": "Acceso denegado. Se requiere rol de ADMIN" }
         }
       }
     },
@@ -694,6 +633,136 @@
       },
       "401": { "description": "No autenticado" },
       "500": { "description": "Error al procesar la eliminación" }
+        }
+      }
+    },
+    "/api/cart": {
+      "get": {
+        "tags": ["cart"],
+        "summary": "Obtener el carrito del usuario",
+        "description": "Retorna el carrito activo del usuario autenticado con sus películas asociadas.",
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Carrito obtenido exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": { "$ref": "#/components/schemas/Cart" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "No autenticado" },
+          "500": { "description": "Error al obtener el carrito" }
+        }
+      },
+      "post": {
+        "tags": ["cart"],
+        "summary": "Añadir película al carrito",
+        "description": "Agrega una película al carrito del usuario o incrementa la cantidad si ya existía.",
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["movie_id"],
+                "properties": {
+                  "movie_id": { "type": "integer", "example": 1 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Película añadida al carrito exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": { "$ref": "#/components/schemas/CartMovie" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Datos de entrada inválidos" },
+          "401": { "description": "No autenticado" },
+          "404": { "description": "Película no encontrada" }
+        }
+      },
+      "delete": {
+        "tags": ["cart"],
+        "summary": "Eliminar película del carrito",
+        "description": "Elimina un elemento del carrito enviando el ID de la película.",
+        "security": [{ "cookieAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["movie_id"],
+                "properties": {
+                  "movie_id": { "type": "integer", "example": 1 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Película eliminada del carrito exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Película eliminada del carrito" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "No autenticado" },
+          "404": { "description": "Película no encontrada en el carrito" }
+        }
+      }
+    },
+    "/api/checkout": {
+      "post": {
+        "tags": ["checkout"],
+        "summary": "Procesar la compra (Checkout)",
+        "description": "Convierte los elementos del carrito en una Orden de compra (`Order`) finalizada y vacía el carrito actual.",
+        "security": [{ "cookieAuth": [] }],
+        "responses": {
+          "201": {
+            "description": "Orden creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": { "$ref": "#/components/schemas/Order" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "El carrito está vacío o no se puede realizar la compra" },
+          "401": { "description": "No autenticado" },
+          "500": { "description": "Error al procesar el pago o la compra" }
         }
       }
     }
