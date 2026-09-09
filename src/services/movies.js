@@ -1,4 +1,6 @@
+import cloudinary from "../config/cloudinary.js";
 import prisma from "../lib/prisma.js"
+import { uploadloudinary } from "../utils/uploadCloudinary.js";
 
 export const findAllMovies = async (movieIds) =>{
     try {
@@ -41,13 +43,23 @@ export const findMovieById = async (id) =>{
     }
 };
 
-export const createMovie = async (data) => {
+export const createMovie = async (payload, fileBuffer) => {
     try {
-    if(!data) return{
-        ok:false,
-        message: "No se ha podido añadir la pelicula"
-    }
-        const newMovie = await prisma.movies.create({data})
+        
+        console.log("aqui entra")
+        if(!payload) return{
+            ok:false,
+            message: "No se ha podido añadir la pelicula"
+        }
+        let imageUrl = null;
+        
+        if(fileBuffer){
+            imageUrl = await uploadloudinary(fileBuffer, "movies")
+        }  
+        const newMovie = await prisma.movies.create({data:{
+            ...payload, movie_image: imageUrl
+                }
+    })
 
         return {
             ok: true,
