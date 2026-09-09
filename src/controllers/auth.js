@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import * as authService from "../services/auth.js"
 import { nullable } from "../utils/converter.js";
 
@@ -5,15 +6,13 @@ const NODE_ENV = process.env.NODE_ENV
 
 export const register = async (req,res,next) =>{
     try {
-        const {name, email, password, age, city, postal_code} = req.body
+        const {name, email, password,} = req.body
 
         const result = await authService.insertUser({
             name,
             email, 
             password, 
-            age, 
-            city, 
-            postal_code});
+    });
 
         if(!result.success) return next({
             statusCode: 400,
@@ -36,8 +35,8 @@ export const login = async (req,res,next) =>{
             email,
             password
         })
-        if(!result.success) return next({
-            statusCode: 400,
+        if(!result.success) return res.status(400).json({
+            success:false,
             message: result.message
         })
 
@@ -45,12 +44,17 @@ export const login = async (req,res,next) =>{
             result.data,{
                 maxAge: 3_600_000,
                 httpOnly: true,
-                secure: NODE_ENV,
+            secure: process.env.NODE_ENV === "production",
             }
         );
         return res.status(200).json({
             success:true,
-            data: "Sesion abierta"
+            data: "Sesion abierta",
+            user: {
+                name: result.name,
+                email: result.email,
+                role: result.role
+            }
         });
     } catch (error) {
         next(error)

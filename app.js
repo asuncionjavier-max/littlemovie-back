@@ -15,8 +15,12 @@ import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 
 const app = express()
+app.use(cors({
+  origin: "http://localhost:5173", // La URL de tu Frontend en Vite
+  credentials: true                //  Permite el envío/recepción de cookies y headers autenticados
+}));
+
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
 
