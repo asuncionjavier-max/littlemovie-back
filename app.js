@@ -1,38 +1,40 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import "dotenv/config";
 // Rutas
 import indexroutes from "./src/routes/indexroutes.js";
 
-// Documentacion 
-import swaggerUI from "swagger-ui-express";     
-import fs from "node:fs"
+// Documentacion
+import swaggerUI from "swagger-ui-express";
+import fs from "node:fs";
 
 // necesarias por type:module
-import { join, dirname  } from "node:path";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { errorHandler } from "./src/middlewares/errorHandler.js";
 
-
-const app = express()
-app.use(cors({
-  origin: "http://localhost:5173", // La URL de tu Frontend en Vite
-  credentials: true                //  Permite el envío/recepción de cookies y headers autenticados
-}));
+const app = express();
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL, // La URL de tu Frontend en Vite
+    credentials: true, //  Permite el envío/recepción de cookies y headers autenticados
+  }),
+);
 
 app.use(express.json());
 app.use(cookieParser());
 
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const swaggerDocument = JSON.parse (fs.readFileSync(join(__dirname, "./swagger.json"), "utf-8"),
-)
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const swaggerDocument = JSON.parse(
+  fs.readFileSync(join(__dirname, "./swagger.json"), "utf-8"),
+);
 // Rutas
-app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/api", indexroutes);
 
 // Middleware de error
 
-app.use(errorHandler); 
+app.use(errorHandler);
 
 export default app;
