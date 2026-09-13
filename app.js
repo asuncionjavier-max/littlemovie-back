@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: process.env.FRONTEND_URL, // La URL de tu Frontend en Vite
