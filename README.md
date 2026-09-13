@@ -1,8 +1,17 @@
-# littlemovie-back
+# 🎬 LittleMovie - E-Commerce de Películas
 
-API RESTful para un e-commerce de películas, construida con Node.js, Express, Prisma y Supabase (PostgreSQL).
+Aplicación web full-stack para explorar, gestionar y adquirir películas. Cuenta con autenticación de usuarios, catálogo dinámico, carrito de compras, lista de deseos y panel de administración con subida de portadas.
 
-Proyecto personal para poner en práctica arquitectura en capas, autenticación con JWT, diseño de base de datos relacional y documentación de API con Swagger/OpenAPI.
+---
+
+## 🔑 Credenciales de Administrador
+
+Para acceder al panel de administración y subir películas:
+
+* **Email:** `admin@admin.com`
+* **Contraseña:** `admin1234`
+
+---
 
 ## Stack
 
@@ -60,7 +69,7 @@ routes → controllers → services
 | DELETE | /api/cart | Eliminar película del carrito |
 | POST | /api/checkout | Procesar la compra |
 
-La documentación completa e interactiva está disponible en `/api/docs` (Swagger UI) una vez levantado el servidor.
+La documentación completa e interactiva está disponible en `[/api/docs](https://littlemovie-back.onrender.com/api/docs/)` (Swagger UI) una vez levantado el servidor.
 
 ## Instalación
 
@@ -98,9 +107,6 @@ npx prisma generate     # genera el cliente de Prisma
 npx prisma db pull      # sincroniza el schema con la base de datos
 ```
 
-## Estado del proyecto
-
-En desarrollo. Pendiente de despliegue y de seguir puliendo validaciones y tests.
 
 ## Autor
 
